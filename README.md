@@ -1,5 +1,7 @@
 # NBA Crawler
 
+Simple Python crawler to fetch NBA scores.
+
 ## Usages
 
 1.  Install dependencies:
