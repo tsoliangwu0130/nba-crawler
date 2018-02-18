@@ -1,17 +1,19 @@
 import json
 import requests
 
+date = input('Please enter the date: ')
 
-res = requests.get('http://fcast.us-west-2.espncdn.com/FastcastService/pubsub/profiles/12000/topic/event-topevents/message/5118057/checkpoint')
-data = json.loads(res.text)
-basketball = data['sports'][0]
+res = requests.get('https://data.nba.net/prod/v2/{}/scoreboard.json'.format(date))
+html_doc = res.text
 
-for league in basketball['leagues']:
-    for event in league['events']:
-        competitors = [{}, {}]
-        for index, competitor in enumerate(event['competitors']):
-            competitors[index]['name'] = competitor['name']
-            competitors[index]['score'] = competitor['score']
-        print('{} - {}: {} - {}'.format(
-            competitors[0]['name'], competitors[0]['score'],
-            competitors[1]['name'], competitors[1]['score']))
+json_object = json.loads(html_doc)
+
+for game in json_object['games']:
+    host = game['hTeam']
+    vistor = game['vTeam']
+    print('{} - {} : {} - {}'.format(
+        host['triCode'],
+        host['score'],
+        vistor['triCode'],
+        vistor['score'])
+    )
