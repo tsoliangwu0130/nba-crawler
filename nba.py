@@ -1,7 +1,12 @@
 import json
 import requests
+from optparse import OptionParser
 
-date = input('Please enter the date: ')
+parser = OptionParser()
+parser.add_option('-d', dest='date', help='Games date')
+
+option, _ = parser.parse_args()
+date = option.date
 
 res = requests.get('https://data.nba.net/prod/v2/{}/scoreboard.json'.format(date))
 html_doc = res.text
